@@ -1,19 +1,21 @@
-library(VennDiagram)
+
 library(tidyverse)
 library(DOSE)
 library(enrichplot)
 library(clusterProfiler)
 library(pathfindR)
 
+#===================== DEGs Association ============================
 
-#CARGAR LOS ARCHIVOS
-cancer <- read.csv("Cancer_DEGs_Anotado.txt", fill = TRUE, header = TRUE, 
+#call datasets
+
+cancer <- read.csv("./data/Saos2vsSJSA_annotation.csv", fill = TRUE, header = TRUE, 
                     stringsAsFactors = F, blank.lines.skip = TRUE, row.names = 1)
 
-saos <- read.csv("saos_ED_anotado.csv", fill = TRUE, header = TRUE, 
+saos <- read.csv("./data/hFOBvsSaos2_annotation.csv", fill = TRUE, header = TRUE, 
                 stringsAsFactors = F, blank.lines.skip = TRUE, row.names = 1)
 
-sjsa <- read.csv("sjsa_ED_anotado.csv", fill = TRUE, header = TRUE, 
+sjsa <- read.csv("./data/hFOBvsSjsa_annotation.csv", fill = TRUE, header = TRUE, 
                 stringsAsFactors = F, blank.lines.skip = TRUE, row.names = 1)
 
 
@@ -22,26 +24,30 @@ cancer[cancer$refseq!="",1]
 saos[saos$refseq!="",1]
 sjsa[sjsa$refseq!="",1]
 
-
-#Asociacion
 Osteosarcoma <- list(Saos2=saos[saos$refseq!="",1], SJSA1=sjsa[sjsa$refseq!="",1], 
                      Cancer=cancer[cancer$refseq!="",1])
 
-venn.diagram(Osteosarcoma,
-             filename="Asoc_Osteosarcoma.png",
+VennDiagram::venn.diagram(Osteosarcoma,
+             filename="./Output/Asoc_Osteosarcoma.png",
              col= "transparent", 
              fill = c("green", "blue", "red"),
              alpha=0.5, imagetype="png", 
              resolution = 300, fontfamily = "sans", 
              cat.fontfamily = "sans", height = 800, 
              width = 800, cex=1, cat.cex=1, 
-             cat.col = "black", cat.pos= 1)
+             cat.col = "black")
+
+Asoc1 <- VennDiagram::calculate.overlap(list(Saos2=saos[saos$refseq!="",1],
+                                             SJSA1=sjsa[sjsa$refseq!="",1],
+                                             Cancer=cancer[cancer$refseq!="",1]))
+
+#write.csv(Asociacion1$a2, file = "./Output/Asoc_all_common.csv")
+#write.csv(Asociacion1$a4, file = "./Output/Asoc_all_common.csv")
+#write.csv(Asociacion1$a5, file = "./Output/Asoc_all_common.csv")
+#write.csv(Asociacion1$a6, file = "./Output/Asoc_all_common.csv")
 
 
-Asociacion1 <- calculate.overlap(list(Saos2=saos[saos$refseq!="",1], SJSA1=sjsa[sjsa$refseq!="",1], 
-                                      Cancer=cancer[cancer$refseq!="",1]))
 
-write.csv(Asociacion1$a5, file = "Asoc_all_common.csv")
 
 #===================== IDENTIFICACION DE GENES ============================
 
