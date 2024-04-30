@@ -7,7 +7,7 @@ library(pathfindR)
 
 #===================== DEGs Association ============================
 
-#call datasets
+#call data sets
 
 cancer <- read.csv("./data/Saos2vsSJSA_annotation.csv", fill = TRUE, header = TRUE, 
                     stringsAsFactors = F, blank.lines.skip = TRUE, row.names = 1)
@@ -41,12 +41,12 @@ Asoc1 <- VennDiagram::calculate.overlap(list(Saos2=saos[saos$refseq!="",1],
                                              SJSA1=sjsa[sjsa$refseq!="",1],
                                              Cancer=cancer[cancer$refseq!="",1]))
 
-#write.csv(Asociacion1$a2, file = "./Output/Asoc_all_common.csv")
-#write.csv(Asociacion1$a4, file = "./Output/Asoc_all_common.csv")
-#write.csv(Asociacion1$a5, file = "./Output/Asoc_all_common.csv")
-#write.csv(Asociacion1$a6, file = "./Output/Asoc_all_common.csv")
+#write.csv(Asociacion1$a2, file = "./Output/Asoc_all_common.csv") -- Saos o SJSA
+#write.csv(Asociacion1$a4, file = "./Output/Asoc_all_common.csv") -- Saos o cancer
+#write.csv(Asociacion1$a5, file = "./Output/Asoc_all_common.csv") -- all
+#write.csv(Asociacion1$a6, file = "./Output/Asoc_all_common.csv") -- SJSA o cancer
 
-
+# merge para identificar los genes de los refseq 
 
 
 #===================== IDENTIFICACION DE GENES ============================
